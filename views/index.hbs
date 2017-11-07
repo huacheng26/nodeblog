@@ -1,0 +1,120 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li class="active">文章列表
+            <small class="text-danger">(共{{count}}篇)</small>
+        </li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    {{#equals menu 'fire'}}
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="box box-solid text-success">
+                    <div class="box-body">
+                        <h4>
+                            阅读量大于 <code>100</code> 的文章会被自动点亮 <i class="fa fa-fire text-red"></i> 图标 <i
+                                class="fa fa-smile-o"></i>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{else}}
+        <div class="row hide">
+            <div class="col-md-12">
+                <div class="box box-solid">
+                    <div class="box-body">
+                        <h4>
+                            <b>
+                                JS Tip:
+                            </b>
+                            <span id="duanzi" title="js 小知识">
+
+                            </span>
+                            <a href="https://github.com/loverajoel/jstips#tips-list" target="_blank" class="pull-right text-danger"> <i class="fa fa-hand-o-right"></i> More</a>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/equals}}
+    <div class="row">
+        <div class="col-md-9">
+            {{#if articles}}
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <ul class="nav nav-pills nav-small">
+                            <li role="presentation" {{#equals type ''}}{{#equals recommend undefind}}class="active"{{/equals}}{{/equals}}>
+                                <a href="?">全部</a></li>
+                            <li role="presentation" {{#if recommend}}class="active"{{/if}}><a
+                                    href="?recommend=true">推荐</a></li>
+                            <li role="presentation" {{#equals type '原创'}}class="active"{{/equals}}><a
+                                    href="?type=原创">原创</a></li>
+                            <li role="presentation" {{#equals type '分享'}}class="active"{{/equals}}><a
+                                    href="?type=分享">分享</a></li>
+                        </ul>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover">
+                            <tbody>
+                            {{#each articles}}
+                                {{> index-article favorites=../reader.favorites article=this session=../session }}
+                            {{/each}}
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="box-footer">
+                        <nav>
+                            <ul class="pagination">
+                                <li>
+                                    <a href="{{#le pageNumber 1}}?{{else}}?page={{reduce pageNumber 1}}{{/le}}{{#if recommend}}&recommend={{recommend}}{{/if}}{{#if type}}&type={{type}}{{/if}}"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                {{#times pageCount 1 pageCount}}
+                                    <li {{#equals pageNumber this.step}}class="active" {{/equals}}>
+                                        <a href="?page={{step}}{{#if recommend}}&recommend={{recommend}}{{/if}}{{#if type}}&type={{type}}{{/if}}">{{step}}</a>
+                                    </li>
+                                {{/times}}
+                                <li>
+                                    <a href="{{#ge pageNumber pageCount}}?page={{pageCount}}{{else}}?page={{add pageNumber 1}}{{/ge}}{{#if recommend}}&recommend={{recommend}}{{/if}}{{#if type}}&type={{type}}{{/if}}"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            {{else}}
+                <div class="box box-solid">
+                    <div class="box-body">
+                        <div class="help-block">
+                            此作者比较懒，没有发表任何文章!
+                            去 <a href="/">首页</a> 浏览更多文章
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+        <div class="col-md-3">
+            {{> sidebar/gonggao}}
+            {{> sidebar/visitor}}
+            {{> sidebar/sponsor}}
+        </div>
+    </div>
+</section>
+{{#section 'js'}}
+    <script>
+        $.get('/duanzi', function(data) {
+            $('#duanzi').html(data);
+            $('#duanzi').closest('div.row').removeClass('hide');
+        })
+    </script>
+{{/section}}

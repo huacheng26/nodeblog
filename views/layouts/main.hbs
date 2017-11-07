@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+    {{> head}}
+</head>
+<body class="hold-transition skin-black-light layout-top-nav">
+<div class="wrapper">
+    {{>header}}
+    <!-- Full Width Column -->
+    <div class="content-wrapper">
+        <div class="container">
+            {{{body}}}
+        </div>
+    </div>
+</div>
+
+{{>footer}}
+<script src="/js/app.js"></script>
+{{{_sections.js}}}
+</body>
+</html>

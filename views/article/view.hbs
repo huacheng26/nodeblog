@@ -1,0 +1,160 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> 首页 </a></li>
+        <li class="active">{{article.title}}</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="box box-solid">
+                <div class="box-body">
+                    <div class="post margin-bottom">
+                        <div class="user-block">
+                            <img class="img-circle touxiang" src="{{gravatar article._user.email}}"
+                                 alt="user image" data-toggle="user-popover">
+                            <div class="username">
+                                <small>
+                                    {{#if article.recommend}} <span class="label label-success">推荐</span>{{/if}}
+                                </small>
+
+                                <a href="/p/{{article._id}}">{{article.title}}</a>
+                                {{#ge article.views 100}}
+                                    <i class="fa fa-fire text-red" title="阅读量大于100会点亮小图标"></i>
+                                {{/ge}}
+
+                            </div>
+
+                            <p class="description margin">
+                                <strong>
+                                    <span class="">
+                                        <a href="/u/{{article._user.username}}">{{article._user.username}}</a>
+                                    </span>
+                                </strong>
+                                <small>
+                                    发表于 {{timeFromNow article.created_time}}
+
+                                    |
+                                    {{article.views}} 次浏览
+                                    |
+                                    <a href="#comment"><span class="ds-thread-count" data-thread-key="{{article._id}}"
+                                                             data-count-type="comments"></span></a> 次评论
+                                    |
+                                    <span class="text-success">最后编辑于 {{timeFromNow article.updated_time}}</span>
+                                </small>
+                                {{#equals article._user.username session.user.username}}
+                                    <small class="pull-right">
+                                        <a href="/dashboard/p/edit/{{article._id}}">编辑</a>
+                                    </small>
+                                {{/equals}}
+
+                            </p>
+                        </div>
+                        <div>
+                            <div>
+
+                            </div>
+                            {{{article.html}}}
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-6 text-center">
+                                <div class="box box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">客官赏口饭吃吧
+                                            <small class="text-danger">支付宝扫描</small>
+                                        </h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <img src="https://raw.githubusercontent.com/gefangshuai/wincn-static/master/imgs/zhong-notitle.png"
+                                             alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <div class="box box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">关注了解更多精彩内容
+                                            <small class="text-danger">微信扫描</small>
+                                        </h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <img src="https://raw.githubusercontent.com/gefangshuai/wincn-static/master/imgs/qrcode_for_gh_d4117a038b97_258.jpg"
+                                             alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <iframe src="http://rcm-cn.amazon-adsystem.com/e/cm?t=gefangshuai-23&o=28&p=48&l=ez&f=ifr&f=ifr" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" border="0" frameborder="0" style="border:none;"></iframe>
+
+                </div>
+
+                <div class="box-footer box-comments">
+                    <!-- 多说评论框 start -->
+                    <div class="ds-thread" data-thread-key="{{article._id}}" data-title="{{article.title}}"
+                         data-url="http://wincn.net/p/{{article._id}}"></div>
+                    <!-- 多说评论框 end -->
+                    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+                    <script type="text/javascript">
+                        var duoshuoQuery = {short_name: "{{site.duoshuo.short_name}}"};
+                        (function () {
+                            var ds = document.createElement('script');
+                            ds.type = 'text/javascript';
+                            ds.async = true;
+                            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                            ds.charset = 'UTF-8';
+                            (document.getElementsByTagName('head')[0]
+                            || document.getElementsByTagName('body')[0]).appendChild(ds);
+                        })();
+                    </script>
+                    <!-- 多说公共JS代码 end -->
+                </div>
+                <div class="box-footer" id="comment">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            {{> sidebar/author-info}}
+            {{> sidebar/more-comments}}
+            <!--{{> sidebar/ad}}-->
+        </div>
+    </div>
+</section>
+<div id="back-top">
+    <a href="#top"><span></span></a>
+</div>
+{{#section 'js'}}
+    <script>
+        // hide #back-top first
+        $("#back-top").hide();
+
+        // fade in #back-top
+        $(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 100) {
+                    $('#back-top').fadeIn();
+                } else {
+                    $('#back-top').fadeOut();
+                }
+            });
+
+            // scroll body to 0px on click
+            $('#back-top a').click(function () {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 800);
+                return false;
+            });
+        });
+    </script>
+{{/section}}

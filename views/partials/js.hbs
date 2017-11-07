@@ -1,0 +1,50 @@
+<!-- Bootstrap 3.3.5 -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="/js/highlight.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/AdminLTE2/js/app.min.js"></script>
+<script src="/js/pace.min.js"></script>
+<script src="/editor/0.1.0/editor.js"></script>
+<script src="/editor/0.1.0/marked.js"></script>
+<script src="/js/skrollr.min.js"></script>
+<script src="/toastr/toastr.js"></script>
+<script>
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    $('[title]').tooltip();
+    $('a[data-toggle="async-modal"]').on('click', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var $modal = $($this.data('target'));
+
+        $.get($this.attr('href'), function (data) {
+            $modal.html(data).modal('show');
+        });
+    });
+
+
+    $('[data-toggle="popover"]').popover();
+
+        {{#if error}}
+        toastr.error('{{error}}');
+        {{/if}}
+        {{#if success}}
+        toastr.success('{{success}}');
+        {{/if}}
+</script>
